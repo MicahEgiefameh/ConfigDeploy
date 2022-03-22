@@ -1,0 +1,44 @@
+#!/usr/bin/env python3
+import argparse
+from modules.php_application import deploy_php
+
+
+def main():
+    print("starting")
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "operation",
+        type=str,
+        choices=["deploy", "configure"]
+    )
+    parser.add_argument(
+        "module",
+        type=str,
+        choices=["php-application", "apache"]
+    )
+    parser.add_argument(
+        "--file",
+        type=str,
+        required=True
+    )
+    args = parser.parse_args()
+
+    file = args.file
+    if args.operation == "deploy":
+        module = args.module
+        if module == "php-application":
+            deploy_php(file)
+    """
+    
+        elif module == "apache":
+            ...
+    elif args.operation == "configure":
+        ...
+
+"""
+
+main()
+
+# config-manage deploy php-application --file application.php
+# config-manage deploy aws-server --file deployment.json
+# config-manage configure --file manage.json
