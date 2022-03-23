@@ -1,6 +1,0 @@
-{
-  "targets": ["54.237.218.0"],
-  "path_to_application": "/Users/micahegiefameh/PycharmProjects/ConfigManagement/php/application.php",
-  "add_packages": ["httpd"],
-  "delete_packages": []
-}
