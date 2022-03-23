@@ -14,12 +14,14 @@ def deploy_php(file):
         install_requirements(add_packages, client)
         if delete_packages:
             remove_requirements(delete_packages, client)
-        if data:
-            metadata(data, client)
 
         sftp = client.open_sftp()
         client.exec_command("sudo chmod -R a+rwx /var/www/html/")
         sftp.put(path_to_application, "/var/www/html/index.php")
+
+        if data:
+            metadata(data, client)
+
         client.exec_command("sudo service httpd restart")
 
 
