@@ -34,7 +34,7 @@ function init() {
 
 function enable_cli() {
   echo "Making program into command line..."
-  mkdir ~/bin
+  mkdir $HOME/bin
   rsync -av --exclude=".*" $PWD/. $HOME/bin
   chmod +x ~/bin/config-manage
   export PATH=$PATH":$HOME/bin"
