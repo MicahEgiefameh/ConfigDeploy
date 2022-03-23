@@ -22,24 +22,26 @@ def remove_requirements(delete_packages, client):
 
 def metadata(data, client):
     try:
-        for key, value in data.items():
-            file_to_configure = key
-            if "owner" in value:
-                client.exec_command(f"sudo chown -R {value['owner']} {file_to_configure}")
-            if "group" in value:
-                client.exec_command(f"sudo chgrp -R {value['group']} {file_to_configure}")
-            if "mode" in value:
-                client.exec_command(f"sudo chmod +{value['mode']} {file_to_configure}")
-    except:
-        print("Couldnt complete")
+        for d in data:
+            file_to_configure = d["file"]
+            if "owner" in d:
+                client.exec_command(f"sudo chown -R {d['owner']} {file_to_configure}")
+            if "group" in d:
+                client.exec_command(f"sudo chgrp -R {d['group']} {file_to_configure}")
+            if "mode" in d:
+                client.exec_command(f"sudo chmod +{d['mode']} {file_to_configure}")
+    except Exception as e:
+        print(e)
 
 
 def configure(file):
     targets, add_packages, delete_packages, data = read_configure(file)
     for target in targets:
         client = create_client(target)
-        install_requirements(add_packages, client)
+        if add_packages:
+            install_requirements(add_packages, client)
         if delete_packages:
             remove_requirements(delete_packages, client)
         if metadata:
             metadata(data, client)
+        client.exec_command(f"sudo init 1 && sudo init 5")

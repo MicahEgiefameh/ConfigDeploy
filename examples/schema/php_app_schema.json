@@ -1,17 +1,21 @@
 {
   "targets": list,
   "path_to_application": str,
-  "metadata" : {
-    "path_of_file_1": {
+  "metadata" : [
+    {
+      "file": str,
       "owner": str,
       "group": str,
       "mode": int
     },
-    "path_of_file_2": {
+    {
+      "file": str,
       "owner": str,
       "group": str,
       "mode": int
-    }
-  },
-  "add_packages": list
+
+      }
+  ],
+  "add_packages": list,
+  "delete_packages": list
 }
