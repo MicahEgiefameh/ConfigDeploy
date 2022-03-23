@@ -1,0 +1,12 @@
+{
+  "targets": ["54.237.218.0"],
+  "path_to_application": "/Users/micahegiefameh/PycharmProjects/ConfigManagement/examples/apps/application.php",
+  "metadata" : {
+    "application.php": {
+      "owner": "ec2-user",
+      "group": "ec2-user",
+      "mode": 600
+    }
+  },
+  "add_packages": ["awscli"]
+}
