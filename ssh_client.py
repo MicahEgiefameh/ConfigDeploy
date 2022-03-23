@@ -4,13 +4,18 @@ import getpass
 
 def create_client(target):
     client = SSHClient()
+    user = input('Target Service User: ')
     try:
         client.set_missing_host_key_policy(AutoAddPolicy())
-        client.connect(target, username='ec2-user', key_filename="~/Downloads/BEEFHOST.pem")
+        client.connect(target, username=user)
     except:
-        #try to get env variable on master, if not ask
-        pswd = getpass.getpass('Password:')
-        client.connect(target, username='ec2-user', password=pswd)
+        pswd = None
+        if pswd:
+            client.connect(target, username=user, password=pswd)
+        else:
+            # for multiple Targets, no reentry of password needed
+            pswd = getpass.getpass('Target Service Password: ')
+            client.connect(target, username=user, password=pswd)
 
 
     return client
