@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+import argparse
+from modules.configure import configure
+from modules.php_application import deploy_php
+
+
+def main():
+    print("starting")
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "operation",
+        type=str,
+        choices=["deploy", "configure"]
+    )
+    parser.add_argument(
+        "module",
+        type=str,
+        choices=["php-application", "apache"]
+    )
+    parser.add_argument(
+        "--file",
+        type=str,
+        required=True
+    )
+    args = parser.parse_args()
+
+    file = args.file
+    if args.operation == "deploy":
+        module = args.module
+        if module == "php-application":
+            deploy_php(file)
+            """
+        elif module == "apache":
+            ...
+            """
+    elif args.operation == "configure":
+        configure(file)
+
+
+main()
+"""
+
+
+
+# * Your tool must provide an abstraction that allows specifying a file's content and metadata (owner, group, mode) (TEST)
+# * Your tool must provide an abstraction that allows installing and removing Debian packages (maybe change apt-get to dpkg) (TEST)
+# * Your tool must provide some mechanism for restarting a service when relevant files or packages are updated (will restart automatically after install and after application deploy)
+
+# Your tool must be idempotent - it must be safe to apply your configuration over and over again (TEST)
+
+# Don't forget to document the basic architecture of your tool, how to install it, how to write configurations, and how to invoke them (ADD README)
+
+"""
