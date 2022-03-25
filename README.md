@@ -8,7 +8,7 @@ ConfigDeploy is maintained and published by Micah Egiefameh.
 ## Getting Started
 
 The latest version of the project will be accessible via GitHub. Download down the repo via 
-`git pull https://github.com/MicahEgiefameh/ConfigManagement.git` on your master host (this can be your local or another server).
+`git pull https://github.com/MicahEgiefameh/ConfigDeploy.git` on your master host (this can be your local or another server).
 
 Navigate to the project files and run `./bootstrap.sh`. This will setup the project to be used like a CLI.
 
