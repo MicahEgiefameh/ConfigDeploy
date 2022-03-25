@@ -7,8 +7,9 @@ function init() {
 
   if [[ ! -z $PYTHON_VAL ]]; then
     echo "Python3 exists, installing dependencies..."
-    pip3 install paramiko
-    pip3 install getpass4
+    pip3 install --upgrade pip
+    pip3 install paramiko getpass4 flask
+
   else
     echo "Python3 doesn't exist, installing Python3 and dependencies..."
     YUM_CMD=$(which yum)
@@ -25,8 +26,8 @@ function init() {
       echo "Error: can't install Python3"
       exit 1;
 
-    pip3 install paramiko
-    pip3 install getpass4
+    pip3 install --upgrade pip
+    pip3 install paramiko getpass4 flask
     fi
   fi
 
@@ -34,11 +35,13 @@ function init() {
 
 function enable_cli() {
   echo "Making program into command line..."
-  mkdir $HOME/bin
-  rsync -av --exclude=".*" $PWD/. $HOME/bin
-  chmod +x ~/bin/config-manage
-  export PATH=$PATH":$HOME/bin"
+  chmod +x $PWD/configdeploy
+  mkdir bin
+  cp -r src bin && cp configdeploy bin
+  export PATH=$PATH":$PWD/bin"
+
 }
 
 init
 enable_cli
+exec "$SHELL"

@@ -2,7 +2,7 @@ import json
 from typing import Tuple
 
 
-def read_php_deploy(file) -> Tuple:
+def read_deploy(file) -> Tuple:
     with open(file) as f:
         d = json.load(f)
         try:
