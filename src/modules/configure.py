@@ -1,9 +1,11 @@
 import time
+
 from src.helpers.json_parser import read_configure
 from src.helpers.ssh_client import create_client, get_user_pass
 
 
-def install_requirements(add_packages, client):
+def install_requirements(add_packages: list, client) -> None:
+    """Installs specified packages"""
     print("Updating...")
     client.exec_command("sudo apt update -y && sudo apt upgrade -y")
     time.sleep(20.0)
@@ -11,12 +13,13 @@ def install_requirements(add_packages, client):
         for package in add_packages:
             print(f"Installing {package}...")
             client.exec_command(f"sudo apt install {package} -y")
-            time.sleep(20.0)
+            time.sleep(40.0)
     except Exception as e:
         print(e)
 
 
-def remove_requirements(delete_packages, client):
+def remove_requirements(delete_packages: list, client) -> None:
+    """Removes specified packages"""
     try:
         for package in delete_packages:
             print(f"Purging {package}...")
@@ -28,11 +31,12 @@ def remove_requirements(delete_packages, client):
         print(e)
 
 
-def metadata(data, client):
+def metadata(data: dict, client) -> None:
+    """Configures specified metadata"""
     try:
         for d in data:
-            if d['file'][0] == "~":
-                file_to_configure = d['file']
+            if d["file"][0] == "~":
+                file_to_configure = d["file"]
             else:
                 file_to_configure = f"/var/www/html/{d['file']}"
             if "owner" in d:
@@ -45,7 +49,8 @@ def metadata(data, client):
         print(e)
 
 
-def configure(file):
+def configure(file: object) -> None:
+    """Configures target according to specifications"""
     targets, add_packages, delete_packages, data = read_configure(file)
     user, pswd = get_user_pass()
     for target in targets:
@@ -57,9 +62,7 @@ def configure(file):
             remove_requirements(delete_packages, client)
         if metadata:
             metadata(data, client)
-        print(f"Rebooting {target}")
-        client.exec_command(f"sudo reboot")
+        print(f"Restarting apache2....")
+        client.exec_command(f"sudo service apache2 restart")
         print(f"{target} Complete! \n")
         client.close()
-
-

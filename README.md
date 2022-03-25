@@ -44,10 +44,10 @@ The anatomy of the CLI command is as follows:
 `configdeploy [operation] --file [file]`
 
 For deployments:  
-`configdeploy deploy [module] --file [json file]`
+`configdeploy deploy --module [module] --file [json file]`
 
 For configurations:  
-`configdeploy configure  --file [json file]`
+`configdeploy configure --file [json file]`
 
 ### Writing Configurations
 
@@ -127,14 +127,14 @@ Examples of the schema can be found in examples/schema/schema_examples.
 
 Use the following CLI command to execute the deployment of a simple PHP application.
 
-`configdeploy deploy php-application --file [file.json]`
+`configdeploy deploy --module php-application --file [file.json]`
 file.json should have a field, `path_to_application`, that points to a php file.
 
 ### Apache Application
 
 Use the following CLI command to execute the deployment of a simple web page.
 
-`configdeploy deploy apache --file [file.json]`
+`configdeploy deploy --module apache --file [file.json]`
 file.json should have a field, `path_to_application`, that points to a html file.
 
 

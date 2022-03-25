@@ -1,13 +1,15 @@
-from src.helpers.ssh_client import create_client, get_user_pass
-from src.modules.configure import install_requirements, remove_requirements, metadata
 from src.helpers.json_parser import read_deploy
-import time
+from src.helpers.ssh_client import create_client, get_user_pass
+from src.modules.configure import install_requirements, metadata, remove_requirements
 
 BASE_PACKAGES = ["apache2"]
 
 
-def apache_server(file):
-    targets, path_to_application, add_packages, delete_packages, data = read_deploy(file)
+def apache_server(file: object) -> None:
+    """Deploys simple web application to target"""
+    targets, path_to_application, add_packages, delete_packages, data = read_deploy(
+        file
+    )
     add_packages += BASE_PACKAGES
     user, pswd = get_user_pass()
     for target in targets:
@@ -20,13 +22,12 @@ def apache_server(file):
         sftp = client.open_sftp()
         client.exec_command("sudo chmod -R a+rwx /var/www/html/")
         client.exec_command("rm /var/www/html/*")
-        sftp.put(path_to_application, "/var/www/html/index.html")
+        sftp.put(path_to_application, "/var/www/html/index.html", confirm=False)
 
         if data:
             metadata(data, client)
-        print("Restarting apache2")
-        client.exec_command("sudo service httpd restart")
-        time.sleep(5.0)
+        print(f"Restarting apache2....")
+        client.exec_command(f"sudo service apache2 restart")
+        print(f"{target} Complete! \n")
 
         client.close()
-

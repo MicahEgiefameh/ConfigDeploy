@@ -2,7 +2,8 @@ import json
 from typing import Tuple
 
 
-def read_deploy(file) -> Tuple:
+def read_deploy(file) -> Tuple[list, str, list, list, dict]:
+    """Parses and verifies fields for deploy operations"""
     with open(file) as f:
         d = json.load(f)
         try:
@@ -16,7 +17,8 @@ def read_deploy(file) -> Tuple:
             print("ERROR: JSON is missing fields.")
 
 
-def read_configure(file) -> Tuple:
+def read_configure(file) -> Tuple[list, list, list, dict]:
+    """Parses and verifies fields for configure operations"""
     with open(file) as f:
         d = json.load(f)
         try:
